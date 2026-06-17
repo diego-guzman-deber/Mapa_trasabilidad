@@ -8,12 +8,13 @@ const CONFIG = {
 };
 
 const STATUS = {
-  2: { label: "Precauci\u00f3n", color: "#FDC715", rank: 5, code: "B" },
-  3: { label: "Desv\u00edo", color: "#59C3EC", rank: 4, code: "C" },
+  2: { label: "Precaución", color: "#FDC715", rank: 5, code: "B" },
+  3: { label: "Desvío", color: "#59C3EC", rank: 4, code: "C" },
   4: { label: "Cerrado", color: "#E62F58", rank: 1, code: "D" },
   5: { label: "Conflicto", color: "#6E61A7", rank: 2, code: "E" },
-  7: { label: "Restricci\u00f3n", color: "#008F58", rank: 3, code: "G" },
-  8: { label: "Restricci\u00f3n especial", color: "#59C3EC", rank: 3, code: "H" }
+  7: { label: "Restricción", color: "#008F58", rank: 3, code: "G" },
+  8: { label: "Restricción especial", color: "#59C3EC", rank: 3, code: "H" },
+  9: { label: "Interrupción", color: "#E62F58", rank: 1, code: "I" }
 };
 
 const DEPARTMENTS = [

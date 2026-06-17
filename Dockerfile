@@ -1,39 +1,41 @@
-# ── Etapa única: Python slim ───────────────────────────────────────────────
+# ── Python slim ────────────────────────────────────────────────────────────
 FROM python:3.12-slim
 
-# Metadatos
 LABEL maintainer="Mapa Transitabilidad Bolivia"
 LABEL description="Servidor del Mapa de Transitabilidad ABC Bolivia"
 
-# Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8000
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# 1. Instalar dependencias Python primero (capa cacheada)
+# 1. Dependencias Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 2. Copiar el código del servidor
+# 2. Código del servidor
 COPY iniciar_mapa.py .
 COPY descargar_abc.py .
+COPY preparar_datos.py .
 
-# 3. Copiar el frontend estático
-# Nota: comillas tipo array JSON son necesarias por el espacio en el nombre
+# 3. Frontend estático (nombre con espacio → sintaxis array JSON)
 COPY ["mapa transitabilidad/", "mapa transitabilidad/"]
 
-# 4. Copiar el sample de data manual (el directorio data/ real es un volumen)
-RUN mkdir -p data
-COPY data/manual_abc_data.sample.json data/manual_abc_data.sample.json
+# 4. Seed data: los JSON de ABC se copian a /app/data-seed/
+#    El entrypoint los siembra en /app/data/ al arrancar.
+#    Así el servidor tiene datos desde el primer inicio,
+#    incluso si hay un volumen vacío montado en /app/data/.
+RUN mkdir -p /app/data-seed
+COPY data/ /app/data-seed/
 
-# Puerto que expone el servidor Python
+# 5. Entrypoint que siembra los datos y luego arranca el servidor
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8000
 
-# Health check: verifica que la API responde
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
     CMD python -c "from urllib.request import urlopen; urlopen('http://localhost:8000/api/history', timeout=8)" || exit 1
 
-# Arrancar sin abrir browser (modo servidor)
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["python", "-u", "iniciar_mapa.py", "--no-browser"]
