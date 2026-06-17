@@ -21,7 +21,8 @@ COPY iniciar_mapa.py .
 COPY descargar_abc.py .
 
 # 3. Copiar el frontend estático
-COPY "mapa transitabilidad/" "./mapa transitabilidad/"
+# Nota: comillas tipo array JSON son necesarias por el espacio en el nombre
+COPY ["mapa transitabilidad/", "mapa transitabilidad/"]
 
 # 4. Copiar el sample de data manual (el directorio data/ real es un volumen)
 RUN mkdir -p data
