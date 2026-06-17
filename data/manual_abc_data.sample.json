@@ -1,0 +1,16 @@
+[
+  {
+    "id_estado": 5,
+    "departamento": "LA PAZ",
+    "ruta": "001",
+    "tramo": "Ejemplo",
+    "descr_sector": "Punto de bloqueo de ejemplo",
+    "inicio_seccion": "Origen",
+    "fin_seccion": "Destino",
+    "latitud_inicio_seccion": -16.5,
+    "longitud_inicio_seccion": -68.15,
+    "evento": {
+      "descripcion_evento": "Bloqueo"
+    }
+  }
+]

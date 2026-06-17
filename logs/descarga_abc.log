@@ -1,0 +1,11 @@
+[2026-06-17 11:11:44] ==================================================
+[2026-06-17 11:11:44] descargar_abc.py — Mapa de Transitabilidad
+[2026-06-17 11:11:44] ==================================================
+[2026-06-17 11:11:44] Estado del cache: NO EXISTE
+[2026-06-17 11:11:52] ==================================================
+[2026-06-17 11:11:52] descargar_abc.py — Mapa de Transitabilidad
+[2026-06-17 11:11:52] ==================================================
+[2026-06-17 11:11:52] Cache no existe. Descargando...
+[2026-06-17 11:11:52] Pausa anti-bot: 3.2s ...
+[2026-06-17 11:11:55] User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20...
+[2026-06-17 11:11:56] ERROR al descargar: 403 Client Error: Forbidden for url: https://transitabilidad.abc.gob.bo/api/v1/data

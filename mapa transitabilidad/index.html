@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel TV Transitabilidad ABC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&family=Roboto:wght@400;700;900&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=windows-10">
+  </head>
+  <body>
+    <main class="broadcast" aria-label="Panel televisivo de transitabilidad">
+      <header class="topbar">
+        <section class="brand">
+          <img class="brand-logo" src="assets/el-deber-verde.png" alt="EL DEBER">
+          <div>
+            <h1>Mapa de transitabilidad nacional</h1>
+          </div>
+        </section>
+        <section class="signal">
+          <div class="live-dot" aria-hidden="true"></div>
+          <div>
+            <p>EN VIVO</p>
+            <strong id="clock">--:--</strong>
+          </div>
+        </section>
+      </header>
+
+      <section class="hero-grid">
+        <section class="map-panel" aria-label="Mapa de alertas">
+          <div id="map" class="problem-map" aria-label="Mapa televisivo por departamentos"></div>
+          <div class="map-overlay">
+            <span id="mapStatus">Conectando con datos ABC...</span>
+            <strong id="updatedAt">Actualizando</strong>
+          </div>
+        </section>
+
+        <aside class="control-panel" aria-label="Resumen de estado vial">
+          <section class="selected-area" aria-label="Departamento seleccionado">
+            <div id="selectedDepartmentFlag" class="selected-flag flag-bolivia" aria-hidden="true"></div>
+            <div>
+              <span id="selectedDepartmentEyebrow">Resumen nacional</span>
+              <strong id="selectedDepartmentTitle">Bolivia</strong>
+            </div>
+          </section>
+
+          <section class="scoreboard">
+            <article class="score danger">
+              <span>Conflicto pa&iacute;s</span>
+              <strong id="closedCount">0</strong>
+            </article>
+            <article class="score conflict">
+              <span>Conflictos</span>
+              <strong id="conflictCount">0</strong>
+            </article>
+            <article class="score warning">
+              <span>Precauci&oacute;n</span>
+              <strong id="cautionCount">0</strong>
+            </article>
+            <article class="score route">
+              <span>Alertas totales</span>
+              <strong id="totalCount">0</strong>
+            </article>
+          </section>
+
+          <section class="history-panel" aria-label="Historial diario">
+            <div class="panel-heading">
+              <h2>Historial</h2>
+              <span>Bloqueos sociales</span>
+            </div>
+            <div id="historyList" class="history-list">
+              <span class="history-empty">Cargando historial...</span>
+            </div>
+          </section>
+
+          <section class="departments">
+            <div class="panel-heading">
+              <h2>Departamentos</h2>
+              <span>Seleccione zona</span>
+            </div>
+            <div id="departmentNav" class="department-nav"></div>
+          </section>
+
+          <section class="alerts">
+            <div class="panel-heading">
+              <h2 id="selectedDepartmentName">Bolivia</h2>
+              <span id="selectedDepartmentCount">0 puntos</span>
+            </div>
+            <ol id="departmentPointList" class="point-list"></ol>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="ticker" aria-label="&Uacute;ltimas novedades">
+        <span class="ticker-label">REPORTE ABC</span>
+        <div class="ticker-window">
+          <div id="tickerTrack" class="ticker-track">Esperando datos de transitabilidad...</div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      window.addEventListener("error", function (event) {
+        var status = document.getElementById("mapStatus");
+        if (status) status.textContent = "Error JavaScript: " + event.message;
+      });
+    </script>
+    <script src="app.js?v=windows-23"></script>
+    <script>
+      window.setTimeout(function () {
+        if (window.__MAPA_APP_BOOTED__) return;
+        var status = document.getElementById("mapStatus");
+        if (status) status.textContent = "Error: app.js no cargo. Revisa que el servidor local siga abierto.";
+      }, 1200);
+    </script>
+  </body>
+</html>

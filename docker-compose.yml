@@ -1,0 +1,40 @@
+services:
+  mapa-transitabilidad:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mapa-transitabilidad
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      # Persiste el cache JSON, la DB SQLite y los logs entre reinicios/redeploys.
+      # En Dokploy: ir a la app → Volumes → crear uno que apunte a /app/data
+      - mapa_data:/app/data
+      - mapa_logs:/app/logs
+
+    environment:
+      - PYTHONUNBUFFERED=1
+
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "from urllib.request import urlopen; urlopen('http://localhost:8000/api/history', timeout=8)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+    # Limitar recursos para no saturar el servidor
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+volumes:
+  mapa_data:
+    driver: local
+  mapa_logs:
+    driver: local

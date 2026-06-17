@@ -1,0 +1,36 @@
+# Archivos a ignorar al construir la imagen Docker
+# (reduce el tamaño del contexto de build)
+
+# Cache y datos locales (se usan volúmenes en producción)
+data/latest_abc_data.json
+data/departments_geojson.json
+data/transitabilidad_history.db
+logs/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Entornos virtuales
+venv/
+env/
+.env
+.venv
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Archivos de desarrollo
+*.bat
+iniciar_linux.sh
+permitir_firewall_windows.bat
+mantener_mapa.py
