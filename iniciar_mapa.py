@@ -439,20 +439,23 @@ def fetch_department_geojson() -> dict:
     except (OSError, json.JSONDecodeError):
         pass
 
-    # 3. Red
-    time.sleep(random.uniform(0.5, 2.0))
-    data = fetch_json_url(DEPARTMENTS_GEOJSON_URL)
-    if isinstance(data, dict) and isinstance(data.get("features"), list):
-        try:
-            DATA_DIR.mkdir(exist_ok=True)
-            with GEOJSON_CACHE_PATH.open("w", encoding="utf-8") as fh:
-                json.dump(data, fh, ensure_ascii=False)
-        except OSError:
-            pass
-        with GEOJSON_LOCK:
-            GEOJSON_STATE["data"] = data
-            GEOJSON_STATE["fetched_at"] = time.time()
-        return data
+    # 3. Red — envuelto en try-except para que ArcGIS no rompa el flujo
+    try:
+        time.sleep(random.uniform(0.5, 2.0))
+        data = fetch_json_url(DEPARTMENTS_GEOJSON_URL)
+        if isinstance(data, dict) and isinstance(data.get("features"), list):
+            try:
+                DATA_DIR.mkdir(exist_ok=True)
+                with GEOJSON_CACHE_PATH.open("w", encoding="utf-8") as fh:
+                    json.dump(data, fh, ensure_ascii=False)
+            except OSError:
+                pass
+            with GEOJSON_LOCK:
+                GEOJSON_STATE["data"] = data
+                GEOJSON_STATE["fetched_at"] = time.time()
+            return data
+    except Exception as exc:
+        _log(f"[GeoJSON] No se pudo obtener mapa de departamentos: {exc}")
 
     return {"features": []}
 
