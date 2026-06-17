@@ -424,18 +424,17 @@ def fetch_department_geojson() -> dict:
     if geo_data and now - geo_ts < GEOJSON_CACHE_TTL_SECONDS:
         return geo_data
 
-    # 2. Disco
+    # 2. Disco — se usa aunque esté "viejo" si no hay acceso a ArcGIS
     try:
         if GEOJSON_CACHE_PATH.exists():
-            mtime = GEOJSON_CACHE_PATH.stat().st_mtime
-            if now - mtime < GEOJSON_CACHE_TTL_SECONDS:
-                with GEOJSON_CACHE_PATH.open("r", encoding="utf-8") as fh:
-                    data = json.load(fh)
-                if isinstance(data, dict) and isinstance(data.get("features"), list):
-                    with GEOJSON_LOCK:
-                        GEOJSON_STATE["data"] = data
-                        GEOJSON_STATE["fetched_at"] = mtime
-                    return data
+            with GEOJSON_CACHE_PATH.open("r", encoding="utf-8") as fh:
+                data = json.load(fh)
+            if isinstance(data, dict) and isinstance(data.get("features"), list) and data["features"]:
+                mtime = GEOJSON_CACHE_PATH.stat().st_mtime
+                with GEOJSON_LOCK:
+                    GEOJSON_STATE["data"] = data
+                    GEOJSON_STATE["fetched_at"] = mtime
+                return data
     except (OSError, json.JSONDecodeError):
         pass
 

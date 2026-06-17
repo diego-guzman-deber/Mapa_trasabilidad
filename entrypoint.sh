@@ -10,7 +10,7 @@ SEED_DIR="/app/data-seed"
 mkdir -p "$DATA_DIR"
 
 echo "[Entrypoint] Sembrando datos iniciales..."
-for f in latest_abc_data.json manual_abc_data.json manual_abc_data.sample.json; do
+for f in latest_abc_data.json manual_abc_data.json manual_abc_data.sample.json departments_geojson.json; do
     src="$SEED_DIR/$f"
     dst="$DATA_DIR/$f"
     if [ -f "$src" ]; then

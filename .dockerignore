@@ -3,12 +3,8 @@
 # Base de datos SQLite (se genera en runtime, se persiste en volumen)
 data/transitabilidad_history.db
 
-# GeoJSON de departamentos (se descarga y cachea automáticamente)
-data/departments_geojson.json
-
-# NOTA: data/latest_abc_data.json y data/manual_abc_data.json
-# SÍ se incluyen en el build — se copian como seed data en /app/data-seed/
-# para que el servidor tenga datos desde el primer arranque.
+# NOTA: los archivos JSON de data/ SÍ se incluyen en el build como seed data:
+#   latest_abc_data.json, manual_abc_data.json, departments_geojson.json
 
 # Python compilado
 __pycache__/
