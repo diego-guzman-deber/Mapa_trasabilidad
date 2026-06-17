@@ -118,11 +118,6 @@ def _build_headers() -> dict:
         "Accept": "application/json, text/plain, */*",
         "Accept-Language": "es-BO,es;q=0.9,en;q=0.8",
         "Accept-Encoding": "gzip, deflate, br",
-        "Referer": "https://transitabilidad.abc.gob.bo/mapa",
-        "Origin": "https://transitabilidad.abc.gob.bo",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
         "Connection": "keep-alive",
     }
 

@@ -118,11 +118,14 @@ class Utf8StaticHandler(SimpleHTTPRequestHandler):
                 self.send_json(latest_history_summary(error=str(exc)))
             return
         if path == "/api/v1/data":
-            # Sirve desde cache; el worker actualiza en background
+            # Sirve desde cache; el worker actualiza en background.
+            # Siempre devuelve 200: [] si no hay datos, para que el
+            # frontend muestre mapa vacío en vez de crashear con 502.
             try:
-                self.send_json(fetch_abc_data(enrich_departments=True))
-            except Exception as exc:
-                self.send_json({"error": str(exc)}, status=502)
+                data = fetch_abc_data(enrich_departments=True)
+            except Exception:
+                data = []
+            self.send_json(data)
             return
         if path == "/api/map/departments":
             try:
@@ -164,19 +167,16 @@ class Utf8StaticHandler(SimpleHTTPRequestHandler):
 # ══════════════════════════════════════════════════════════════════════════
 
 def _browser_headers(url: str) -> dict:
-    """Headers que imitan un navegador moderno para la URL dada."""
-    parsed = urlparse(url)
-    origin = f"{parsed.scheme}://{parsed.netloc}"
+    """
+    Headers que imitan un navegador moderno.
+    No incluimos Origin/Referer porque en peticiones servidor-a-servidor
+    algunos sitios los usan para detectar que no es un navegador real.
+    """
     return {
         "User-Agent": random.choice(_USER_AGENTS),
         "Accept": "application/json, text/plain, */*",
         "Accept-Language": "es-BO,es;q=0.9,en;q=0.8",
         "Accept-Encoding": "gzip, deflate, br",
-        "Referer": f"{origin}/mapa",
-        "Origin": origin,
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
         "Connection": "keep-alive",
     }
 
@@ -404,7 +404,10 @@ def fallback_abc_items(error: str, enrich_departments: bool) -> list:
         _log(f"[Fallback] Usando historial local. ({error})")
         return enrich_abc_items(history_items) if enrich_departments else history_items
 
-    raise RuntimeError(error)
+    # Sin datos en ninguna capa → retorna lista vacía en lugar de lanzar
+    # excepción. El frontend mostrará mapa vacío con un mensaje de error.
+    _log(f"[Fallback] Sin datos disponibles. ({error})")
+    return []
 
 
 # ══════════════════════════════════════════════════════════════════════════
