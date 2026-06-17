@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# Entornos virtuales
+venv/
+env/
+.env
+.venv
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs (generados en runtime, no en repo)
+logs/
+
+# La DB SQLite se genera en runtime — no subir al repo
+data/transitabilidad_history.db
+
+# El GeoJSON de departamentos se cachea automáticamente
+data/departments_geojson.json
+
+# NOTA: data/latest_abc_data.json y data/manual_abc_data.json
+# SÍ se incluyen en el repo intencionalmente para seedear datos
+# en el servidor cuando ABC está bloqueado.
