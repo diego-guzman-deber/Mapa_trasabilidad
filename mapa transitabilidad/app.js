@@ -3,7 +3,7 @@ window.__MAPA_APP_BOOTED__ = true;
 const CONFIG = {
   apiBase: "",
   politicalMapUrl: "/api/map/departments",
-  conflictStart: { year: 2026, month: 5, day: 1 },
+  conflictStart: { year: 2026, month: 6, day: 20 },
   refreshMs: 3600000
 };
 
@@ -311,7 +311,7 @@ function renderProblemMap(totals) {
       <span>Conflicto pa\u00eds</span>
       <strong>${countryConflictBlocks}</strong>
       <small>bloqueos por conflictos sociales</small>
-      <b>${getConflictDays()} d\u00edas de conflicto</b>
+      <b>${getConflictDays()} d\u00edas de estado de excepci\u00f3n</b>
     </aside>
     <aside class="map-insight">
       <span>Conflicto pa\u00eds</span>
@@ -381,7 +381,7 @@ function renderDepartmentZoom(totals) {
       <span>Conflicto pa\u00eds</span>
       <strong>${lastData.filter((item) => Number(item.id_estado) === 5).length}</strong>
       <small>bloqueos por conflictos sociales</small>
-      <b>${getConflictDays()} d\u00edas de conflicto</b>
+      <b>${getConflictDays()} d\u00edas de estado de excepci\u00f3n</b>
     </aside>
   `;
   applyMapTransition();
